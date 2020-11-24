@@ -31,10 +31,10 @@ $(function () {
         // let dataStr = $(this).serialize();
         // console.log(dataStr);
         // console.log(111);
-        let username = $('#username').val();
-        let password = $('#password').val();
+        let username = $('#username').val().trim();
+        let password = $('#password').val().trim();
         $.ajax({
-            url: 'http://ajax.frontend.itheima.net/api/reguser',
+            url: '/api/reguser',
             method: 'post',
             data: {
                 username: username,
@@ -43,6 +43,10 @@ $(function () {
             success(res) {
                 layui.layer.msg(res.message)
                 if (res.status != 0) return;
+
+                //将信息填充到登录表单框里
+                $('.login-box [name=username]').val(username);
+                $('.login-box [name=password]').val(password)
                 //清空注册表单
                 $('#form_reg')[0].reset();
                 //切换到登录div
@@ -51,6 +55,33 @@ $(function () {
             }
         })
     })
+
+    //登录事件
+    $('#form_login').on('submit', function (e) {
+        e.preventDefault();
+        console.log($(this).serialize());
+
+        $.ajax({
+            url: '/api/login',
+            method: 'post',
+            data: $(this).serialize(),
+            success: function (res) {
+
+                if (res.status != 0) return layui.layer.msg(res.message);
+                layui.layer.msg(res.message, {
+                    icon: 6,
+                    time: 1500
+                },
+                    function () {
+                        localStorage.setItem('token', res.token);
+                        location.href = '/index.html'
+                    }
+                )
+
+            }
+        })
+    })
+
 
 
 })
