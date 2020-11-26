@@ -59,7 +59,7 @@ $(function () {
     //登录事件
     $('#form_login').on('submit', function (e) {
         e.preventDefault();
-        console.log($(this).serialize());
+        // console.log($(this).serialize());
 
         $.ajax({
             url: '/api/login',

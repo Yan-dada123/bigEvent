@@ -14,7 +14,7 @@ $.ajaxPrefilter(function (option) {
                 time: 1500
             }, function () {
                 localStorage.removeItem('token');
-                location.href = '/login.html'
+                window.top.location.href = '/login.html'
             })
 
 
